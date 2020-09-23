@@ -5,12 +5,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Drafts</h1>
+                        <h1>Live Posts</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Text Editors</li>
+                            <li class="breadcrumb-item"><router-link to="/home">Home</router-link></li>
+                            <li class="breadcrumb-item active">Live Posts</li>
                         </ol>
                     </div>
                 </div>
@@ -27,15 +27,12 @@
 
                             <div class="card-header">
 
-                                <h3 class="card-title">Drafts</h3>
+                                <h3 class="card-title">Live Posts</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <div v-if="loading">
-                                    <semipolar-spinner :animation-duration="1000" class="mx-auto" :size="90"
-                                        color="#339af0" />
-                                </div>
-                                <div v-else>
+                               
+                                <div>
                                     <b-table hover responsive :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" striped
                                         head-variant="dark" :busy="isBusy" bordered :items="items" :fields="fields"
                                         :current-page="ctx.currentPage" :per-page=0>
@@ -92,9 +89,7 @@
     </div>
 </template>
 <script>
-    import {
-        SemipolarSpinner
-    } from 'epic-spinners'
+    
     import Swal from 'sweetalert2'
     export default {
 
@@ -149,11 +144,9 @@
 
             }
         },
-        components: {
-            SemipolarSpinner,
-        },
+        
         methods: {
-            getDrafts: function () {
+            getLivePosts: function () {
                 this.isBusy = true
                 axios.get('/api/post/livePosts').then((result) => {
                     this.items = result.data[0].data
@@ -230,7 +223,7 @@
                         this.isBusy = true
                         axios.post('/api/posts/delete/' + post.id).then((response) => {
                             if (response.status === 200) {
-                                this.getDrafts()
+                                this.getLivePosts()
                                 Swal.fire(
                                     'Deleted!',
                                     'Post Deleted Successfully!!😀',
@@ -242,12 +235,12 @@
                         });
                         this.isBusy = false
                     }
-                })
+                }) 
             },
             
         },
         created: function () {
-            this.getDrafts()
+            this.getLivePosts()
         }
     }
 

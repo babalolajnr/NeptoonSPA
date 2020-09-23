@@ -132,7 +132,7 @@
             <!-- Brand Logo -->
             <!--homelink-->
             <a href="home" class="brand-link">
-                <img src="logo/neptune2-favicon.png" alt="Neptune logo" class="brand-image img-circle elevation-3"
+                <img src="images/neptune2Favicon.png" alt="Neptune logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">Neptune</span>
             </a>
@@ -142,10 +142,10 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="avatar" class="img-circle elevation-2" alt="User Image">
+                        <img src="#" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="profile-link" class="d-block">Username</a>
+                        <button @click="goToProfilePage()" class="d-block btn text-white">{{  user.username  }}</button>
                     </div>
                 </div>
 
@@ -230,12 +230,12 @@
 
                         <li class="nav-header">User</li>
                         <li class="nav-item">
-                           
+
                             <span @click="logout" class="nav-link">
                                 <i class="nav-icon fas fa-door-open  text-danger"></i>
                                 <p class="text-white">Logout</p>
                             </span>
-                           
+
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -292,14 +292,37 @@
 </style>
 <script>
     export default {
+        data() {
+            return {
+
+                user: []
+            }
+        },
         methods: {
-            logout(){
+            logout() {
                 axios.post('/logout').then(response => {
-                    if(response.status === 204){
+                    if (response.status === 204) {
                         window.location = '/login'
                     }
                 })
+            },
+            getAuthUser() {
+                axios.get('/api/user').then((response) => {
+                    this.user = response.data[0]
+                    // console.log(response.data[0].firstName)
+                })
+            },
+            goToProfilePage() {
+                this.$router.push({
+                    name: 'profile',
+                    params: {
+                        id: this.user.id
+                    }
+                })
             }
+        },
+        created() {
+            this.getAuthUser()
         }
 
     }

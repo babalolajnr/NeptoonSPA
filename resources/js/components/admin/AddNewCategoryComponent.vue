@@ -137,6 +137,8 @@
                         this.errors = error.response.data.errors || {}
                         this.errorModal()
                          
+                    }else{
+                        this.errorModal()
                     }
                 }).finally(() => {
                     this.loading = false
