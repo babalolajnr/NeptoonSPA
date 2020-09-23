@@ -40,7 +40,7 @@ class UsersController extends Controller
             'firstName' => $request->firstName,
             'lastName' =>  $request->lastName,
             'username' =>  $request->username,
-            'location' =>  $request->location,
+            'location' =>  $request->location, 
             'bio' =>  $request->bio,
             'skills' =>  $request->skills,
             'headline' =>  $request->headline,
