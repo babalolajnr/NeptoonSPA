@@ -158,7 +158,7 @@
                         <li class="nav-item has-treeview menu-open">
                             <!--should be active if in home link-->
                             <!--<a href="home-link" class="nav-link active"></a>-->
-                            <router-link to="/" class="nav-link active">
+                            <router-link to="/home" class="nav-link active">
 
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
@@ -316,7 +316,7 @@
                 this.$router.push({
                     name: 'profile',
                     params: {
-                        id: this.user.id
+                        username: this.user.username
                     }
                 })
             }

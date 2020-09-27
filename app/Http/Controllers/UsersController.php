@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use  Intervention\Image\Facades\Image;
 
 class UsersController extends Controller
 {
@@ -49,6 +51,27 @@ class UsersController extends Controller
 
         return response()->json([
             'success' => 'User Profile Updated Successfully!'
+        ], 200);
+
+    }
+
+    public function updateAvatar(Request $request, $id) 
+    {
+        $this->validate($request, array(
+            'avatar' => 'required|image|mimes:jpeg,png,jpg'
+        ));
+
+        // Process the image and resize to 750x450
+        $request->avatar = 'storage/uploads/' . $request->file('avatar')->getClientOriginalName();
+        $avatar = Image::make($request->file('avatar')->getRealPath())->fit(128,128);
+        $avatar->save($request->avatar);
+
+        $user = User::find($id);
+        $user->update([
+            'avatar' => $request->avatar
+        ]);
+        return response()->json([
+            'success' => 'User Avatar Updated Successfully!'
         ], 200);
 
     }

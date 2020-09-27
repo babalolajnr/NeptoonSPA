@@ -30,7 +30,7 @@
                         <div class="card card-primary card-outline">
                             <div class="card-body box-profile">
                                 <div class="text-center">
-                                    <img class="profile-user-img img-fluid img-circle" src="#"
+                                    <img class="profile-user-img img-fluid img-circle" v-bind:src="'http://127.0.0.1:8000/' + user.avatar"
                                         alt="User profile picture">
                                 </div>
 
@@ -254,7 +254,17 @@
                                         </ValidationObserver>
                                     </div>
                                     <div class="tab-pane" id="profilePic">
-                                        avatar upload
+                                        <b-form @submit="updateAvatar">
+                                          
+                                            <b-form-file v-model="file1" :state="Boolean(file1)"
+                                                placeholder="Choose a file or drop it here..."
+                                                drop-placeholder="Drop file here..."></b-form-file>
+                                            <div class="mt-3">Selected Image: {{ file1 ? file1.name : '' }}</div>
+                                             <span v-if="loading">
+                                                        <semipolar-spinner :animation-duration="1000" class=""
+                                                            :size="30" color="#339af0" /></span>
+                                            <b-button v-else type="submit" variant="primary">Submit</b-button>
+                                        </b-form>
                                     </div>
                                 </div>
                                 <!-- /.tab-pane -->
@@ -325,7 +335,8 @@
                 user: [],
                 selectedSkills: [],
                 readMoreBio: false,
-                readMoreExperience: false
+                readMoreExperience: false,
+                file1: null,
 
             }
         },
@@ -343,6 +354,31 @@
                     this.image = event.target.files[0]
                 }
 
+            },
+            updateAvatar(e) {
+                e.preventDefault();
+                this.loading = true
+
+                let formData = new FormData()
+                formData.append('avatar', this.file1)
+                formData.append('_method', 'patch')
+
+                axios.post('/api/user/updateAvatar/' + this.user.id, formData).then((response) => {
+                    if (response.status === 200) {
+                         this.success = response.data.success
+                         this.getAuthUser()
+                        this.successModal()
+                    }
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        this.errors = error.response.data.errors || {}
+                        this.errorModal()
+                    } else {
+                        this.errorModal()
+                    }
+                }).finally(() => {
+                    this.loading = false
+                })
             },
             formSubmit(e) {
                 e.preventDefault();

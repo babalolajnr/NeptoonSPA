@@ -31,4 +31,5 @@ Route::patch('/posts/publish/{id}', 'PostsController@publish');
 Route::get('/post/livePosts', 'PostsController@getLivePosts');
 Route::get('/user', 'UsersController@getAuthenticatedUser');
 Route::patch('/user/update/{id}', 'UsersController@UpdateUser');
+Route::patch('/user/updateAvatar/{id}', 'UsersController@updateAvatar');
 
