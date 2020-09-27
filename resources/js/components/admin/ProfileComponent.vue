@@ -86,11 +86,12 @@
 
                                 <hr>
 
-                                <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
+                                <strong><i class="fas fa-pencil-alt mr-1"></i>Skills</strong>
 
                                 <p class="text-muted">
 
-                                    <span v-for="skill in this.user.skills" :key="skill" class="badge badge-pill badge-info">{{ skill }}</span>
+                                    <span v-for="skill in this.user.skills" :key="skill"
+                                        class="badge badge-pill badge-info">{{ skill }}</span>
 
                                 </p>
 
@@ -323,8 +324,8 @@
                 success: null,
                 user: [],
                 selectedSkills: [],
-                readMoreBio:false,
-                readMoreExperience:false
+                readMoreBio: false,
+                readMoreExperience: false
 
             }
         },
@@ -412,20 +413,20 @@
                     this.user = response.data[0]
                     let skills = this.user.skills
                     this.user.skills = skills.split(', ')
-                    
+
                 })
             },
             changeReadMoreBio() {
-                if(this.readMoreBio === false){
+                if (this.readMoreBio === false) {
                     this.readMoreBio = true
-                }else{
+                } else {
                     this.readMoreBio = false
                 }
             },
             changeReadMoreExperience() {
-                if(this.readMoreExperience === false){
+                if (this.readMoreExperience === false) {
                     this.readMoreExperience = true
-                }else{
+                } else {
                     this.readMoreExperience = false
                 }
             },
