@@ -142,10 +142,13 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img v-bind:src="'http://127.0.0.1:8000/' + user.avatar" class="img-circle elevation-2" alt="User Image">
+                        <img v-bind:src="'http://127.0.0.1:8000/' + user.avatar" class="img-circle elevation-2"
+                            alt="User Image">
                     </div>
                     <div class="info">
-                        <button @click="goToProfilePage()" class="d-block btn text-white">{{  user.username | capitalize }}</button>
+                        <span v-b-hover="usernameHover" :class="isHovered ? 'text-danger' : ''"
+                            @click="goToProfilePage()"
+                            class="d-block text-white">{{  user.username | capitalize }}</span>
                     </div>
                 </div>
 
@@ -283,14 +286,15 @@
         data() {
             return {
 
-                user: []
+                user: [],
+                isHovered: false
             }
         },
         filters: {
             capitalize: function (value) {
                 if (!value) {
                     return ''
-                }else {
+                } else {
                     value = value.toString()
                     return value.toUpperCase()
                 }
@@ -318,6 +322,9 @@
                         username: this.user.username
                     }
                 })
+            },
+            usernameHover(hovered) {
+                this.isHovered = hovered
             }
         },
         created() {
