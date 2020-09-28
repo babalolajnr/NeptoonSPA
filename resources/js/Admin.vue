@@ -142,10 +142,10 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="#" class="img-circle elevation-2" alt="User Image">
+                        <img v-bind:src="'http://127.0.0.1:8000/' + user.avatar" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <button @click="goToProfilePage()" class="d-block btn text-white">{{  user.username  }}</button>
+                        <button @click="goToProfilePage()" class="d-block btn text-white">{{  user.username | capitalize }}</button>
                     </div>
                 </div>
 
@@ -284,6 +284,17 @@
             return {
 
                 user: []
+            }
+        },
+        filters: {
+            capitalize: function (value) {
+                if (!value) {
+                    return ''
+                }else {
+                    value = value.toString()
+                    return value.toUpperCase()
+                }
+
             }
         },
         methods: {

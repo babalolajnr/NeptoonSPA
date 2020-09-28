@@ -6,14 +6,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Live Posts</h1>
+                        <h1>Profile</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
                                 <router-link to="/home">Home</router-link>
                             </li>
-                            <li class="breadcrumb-item active">Live Posts</li>
+                            <li class="breadcrumb-item active">Profile</li>
                         </ol>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                                 <strong><i class="fas fa-book mr-1"></i>Bio</strong>
 
                                 <p class="text-muted" v-if="!readMoreBio" @click="changeReadMoreBio()">
-                                    {{ user.bio.slice(0, 100) }}...
+                                    {{ user.bio | slice }}...
                                 </p>
                                 <p class="text-muted" v-else @click="changeReadMoreBio()">
                                     {{ user.bio }}
@@ -72,7 +72,7 @@
                                 <strong><i class="fas fa-book mr-1"></i>Experience</strong>
 
                                 <p class="text-muted" v-if="!readMoreExperience" @click="changeReadMoreExperience()">
-                                    {{ user.experience.slice(0, 100) }}...
+                                    {{ user.experience | slice }}...
                                 </p>
                                 <p class="text-muted" v-else @click="changeReadMoreExperience()">
                                     {{ user.experience }}
@@ -347,6 +347,15 @@
         created() {
             this.getAuthUser()
 
+        },
+        filters: {
+            slice: function (value) {
+                if(!value) {
+                    return ''
+                }else {
+                    return value.slice(0, 100)
+                }
+            }
         },
         methods: {
             updateAvatar(e) {
