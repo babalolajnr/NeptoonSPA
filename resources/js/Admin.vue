@@ -161,7 +161,7 @@
                         <li class="nav-item has-treeview menu-open">
                             <!--should be active if in home link-->
                             <!--<a href="home-link" class="nav-link active"></a>-->
-                            <router-link to="/home" class="nav-link active">
+                            <router-link to="/home" :class="currentRoute !== 'home' ? '' : 'active' " class="nav-link">
 
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
@@ -171,7 +171,7 @@
                         </li>
                         <li class="nav-item has-treeview">
                             <!--should be active if in posts link-->
-                            <a href="#" class="nav-link">
+                            <a href="#" :class="currentRoute !== 'addnewpost' ? '' : 'active'" class="nav-link">
                                 <i class="nav-icon fas fa-sticky-note"></i>
                                 <p>
                                     Posts
@@ -180,27 +180,27 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <router-link to="/addnewpost" class="nav-link">
-                                        <i class="far fa-book nav-icon"></i>
+                                    <router-link to="/addnewpost" :class="currentRoute !== 'addnewpost' ? '' : 'active' " class="nav-link">
+                                        <i class="fa fa-plus-circle nav-icon"></i>
                                         <p>Add New Post</p>
                                     </router-link>
                                 </li>
                                 <li class="nav-item">
                                     <router-link to="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fa fa-eye nav-icon"></i>
                                         <p>View Posts</p>
                                     </router-link>
                                 </li>
 
                                 <li class="nav-item">
-                                    <router-link to="/drafts" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                    <router-link to="/drafts" :class="currentRoute !== 'drafts' ? '' : 'active' " class="nav-link">
+                                        <i class="fas fa-pen nav-icon"></i>
                                         <p>Drafts</p>
                                     </router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link to="/liveposts" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                    <router-link to="/liveposts" :class="currentRoute !== 'liveposts' ? '' : 'active' " class="nav-link">
+                                        <i class="fa fa-cloud nav-icon"></i>
                                         <p>Live Posts</p>
                                     </router-link>
                                 </li>
@@ -216,13 +216,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <router-link to="/addnewcategory" class="nav-link">
+                                    <router-link to="/addnewcategory" :class="currentRoute !== 'addnewcategory' ? '' : 'active' " class="nav-link">
                                         <i class="fa fa-plus nav-icon"></i>
                                         <p>Add New Category</p>
                                     </router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="#" class="nav-link" :class="currentRoute !== 'viewcategories' ? '' : 'active' ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>View Categories</p>
                                     </a>
@@ -287,7 +287,8 @@
             return {
 
                 user: [],
-                isHovered: false
+                isHovered: false,
+                currentRoute: null,
             }
         },
         filters: {
@@ -325,10 +326,21 @@
             },
             usernameHover(hovered) {
                 this.isHovered = hovered
+            },
+            getCurrentRoute() {
+                this.currentRoute = this.$route.name
+                   
             }
         },
         created() {
             this.getAuthUser()
+            this.getCurrentRoute()
+            
+        },
+        watch: {
+            $route (to, from){
+                this.getCurrentRoute()
+            }
         }
 
     }
