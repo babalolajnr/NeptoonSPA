@@ -14,22 +14,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/register', 'Auth\RegisterController@register');
-Route::post('/logout', 'LogoutController@logout');
-Route::post('/post/create','PostsController@store');
-Route::post('/addnewcategory','CategoriesController@store');
-Route::get('/category/get', 'CategoriesController@getCategories');
-Route::get('/post/drafts', 'PostsController@getDrafts');
-Route::get('/posts/edit/{id}', 'PostsController@edit');
-Route::post('/posts/delete/{id}', 'PostsController@destroy');
-Route::patch('/posts/publish/{id}', 'PostsController@publish');
-Route::get('/post/livePosts', 'PostsController@getLivePosts');
-Route::get('/user', 'UsersController@getAuthenticatedUser');
-Route::patch('/user/update/{id}', 'UsersController@UpdateUser');
-Route::patch('/user/updateAvatar/{id}', 'UsersController@updateAvatar');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    
+    Route::post('/logout', 'LogoutController@logout');
+    Route::post('/post/create','PostsController@store');
+    Route::post('/addnewcategory','CategoriesController@store');
+    Route::get('/category/get', 'CategoriesController@getCategories');
+    Route::get('/post/drafts', 'PostsController@getDrafts');
+    Route::get('/posts/edit/{id}', 'PostsController@edit');
+    Route::post('/posts/delete/{id}', 'PostsController@destroy');
+    Route::patch('/posts/publish/{id}', 'PostsController@publish');
+    Route::get('/post/livePosts', 'PostsController@getLivePosts');
+    Route::get('/user', 'UsersController@getAuthenticatedUser');
+    Route::patch('/user/update/{id}', 'UsersController@UpdateUser');
+    Route::patch('/user/updateAvatar/{id}', 'UsersController@updateAvatar');
+}) ;
+
 
