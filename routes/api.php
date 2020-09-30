@@ -35,6 +35,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', 'UsersController@getAuthenticatedUser');
     Route::patch('/user/update/{id}', 'UsersController@UpdateUser');
     Route::patch('/user/updateAvatar/{id}', 'UsersController@updateAvatar');
-}) ;
+});
+
+Route::get('/latestPosts', 'CosmosController@latestPosts');
 
 

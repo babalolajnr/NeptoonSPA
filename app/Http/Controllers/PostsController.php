@@ -12,7 +12,7 @@ use  Intervention\Image\Facades\Image;
 
 class PostsController extends Controller
 {
-   
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -38,7 +38,7 @@ class PostsController extends Controller
 
         // Process the image and resize to 750x450
         $request->image = 'storage/uploads/' . $request->file('image')->getClientOriginalName();
-        $image = Image::make($request->file('image')->getRealPath())->fit(750,450);
+        $image = Image::make($request->file('image')->getRealPath())->fit(750, 450);
         $image->save($request->image);
 
         //Get Category from database
@@ -56,8 +56,8 @@ class PostsController extends Controller
         ]);
 
         return response()->json([
-            'success' => 'Post Created Successfully'], 200);
-        
+            'success' => 'Post Created Successfully'
+        ], 200);
     }
 
     /**
@@ -83,10 +83,9 @@ class PostsController extends Controller
         $post = Post::find($id);
         $categories = Category::all();
         return response()->json([$post, $categories], 200);
-    
     }
 
-    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -104,19 +103,21 @@ class PostsController extends Controller
     }
 
     //Get drafted posts
-    public function getDrafts(){
-        $drafts = Post::select('id', 'title', 'category_id', 'image', 'created_at' )
-                                ->where('published', 0)->with(array('category'=>function($query){
-                                    $query->select('id', 'name');
-                                }))
-                                ->orderBy('created_at', 'desc')->paginate(10);
-        
+    public function getDrafts()
+    {
+        $drafts = Post::select('id', 'title', 'category_id', 'image', 'created_at')
+            ->where('published', 0)->with(array('category' => function ($query) {
+                $query->select('id', 'name');
+            }))
+            ->orderBy('created_at', 'desc')->paginate(10);
+
         return response()->json([$drafts], 200);
     }
 
     // Publish Post
-    public function publish($id) {
-      
+    public function publish($id)
+    {
+
         $published = Carbon::now();
         $published = $published->toDateTimeString();
 
@@ -130,17 +131,17 @@ class PostsController extends Controller
         ], 200);
     }
 
-     //Display Live Posts
-     public  function getLivePosts() {
+    //Display Live Posts
+    public  function getLivePosts()
+    {
         // $livePosts = Post::where('published', 1)->orderBy('published_at', 'desc')->get();
         // $livePosts = Post::select('id', 'title', 'category_id', 'image', 'published_at' )->where('published', 0)->orderBy('published_at', 'desc')->paginate(5);
-        $livePosts = Post::select('id', 'title', 'category_id', 'image', 'published_at' )
-                                ->where('published', 1)->with(array('category'=>function($query){
-                                    $query->select('id', 'name');
-                                }))
-                                ->orderBy('created_at', 'desc')->paginate(10);
-        
-        return response()->json([$livePosts], 200);  
-        
+        $livePosts = Post::select('id', 'title', 'category_id', 'image', 'published_at')
+            ->where('published', 1)->with(array('category' => function ($query) {
+                $query->select('id', 'name');
+            }))
+            ->orderBy('created_at', 'desc')->paginate(10);
+
+        return response()->json([$livePosts], 200);
     }
 }
