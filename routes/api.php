@@ -41,5 +41,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::get('/topLatestPosts', 'CosmosController@topLatestPosts');
 Route::get('/latestPosts', 'CosmosController@latestPosts');
 Route::get('/featuredPosts', 'CosmosController@featuredPosts');
+Route::get('/singlePost/{slug}', 'CosmosController@singlePost');
 
 

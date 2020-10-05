@@ -9,7 +9,7 @@ class CosmosController extends Controller
 {
     public function latestPosts()
     {
-        $latestPosts =  Post::select('id', 'title', 'category_id', 'image', 'published_at')
+        $latestPosts =  Post::select('id', 'title', 'category_id', 'image', 'published_at', 'slug')
             ->where('published', 1)->with(array('category' => function ($query) {
                 $query->select('id', 'name');
             }))
@@ -20,7 +20,7 @@ class CosmosController extends Controller
 
     public function topLatestPosts()
     {
-        $topLatestPosts = Post::select('id', 'title', 'category_id', 'image', 'published_at')
+        $topLatestPosts = Post::select('id', 'title', 'category_id', 'image', 'published_at', 'slug')
             ->where('published', 1)->with(array('category' => function ($query) {
                 $query->select('id', 'name');
             }))
@@ -38,5 +38,12 @@ class CosmosController extends Controller
             ->limit(3)->get();
 
         return response()->json($featuredPosts, 200);
+    }
+    public function singlePost($slug)
+    {
+        // $post = Post::find($slug);
+        $post = Post::where('slug', $slug)->with('category')->first();
+        // dd($slug);
+        return response()->json($post, 200);
     }
 }
