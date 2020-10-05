@@ -31,12 +31,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/posts/edit/{id}', 'PostsController@edit');
     Route::post('/posts/delete/{id}', 'PostsController@destroy');
     Route::patch('/posts/publish/{id}', 'PostsController@publish');
+    Route::patch('/posts/feature/{id}', 'PostsController@feature');
     Route::get('/post/livePosts', 'PostsController@getLivePosts');
     Route::get('/user', 'UsersController@getAuthenticatedUser');
     Route::patch('/user/update/{id}', 'UsersController@UpdateUser');
     Route::patch('/user/updateAvatar/{id}', 'UsersController@updateAvatar');
 });
 
+Route::get('/topLatestPosts', 'CosmosController@topLatestPosts');
 Route::get('/latestPosts', 'CosmosController@latestPosts');
+Route::get('/featuredPosts', 'CosmosController@featuredPosts');
 
 

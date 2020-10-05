@@ -62,7 +62,7 @@ class UsersController extends Controller
         ));
 
         // Process the image and resize to 750x450
-        $request->avatar = 'storage/uploads/' . $request->file('avatar')->getClientOriginalName();
+        $request->avatar = 'storage/avatars/' . $request->file('avatar')->getClientOriginalName();
         $avatar = Image::make($request->file('avatar')->getRealPath())->fit(128,128);
         $avatar->save($request->avatar);
 

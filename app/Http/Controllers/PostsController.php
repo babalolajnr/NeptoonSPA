@@ -130,13 +130,27 @@ class PostsController extends Controller
             'success' => 'Post Published Successfully!'
         ], 200);
     }
+    // Feature post
+    public function feature($id)
+    {
+
+        $featured = Carbon::now();
+        $featured = $featured->toDateTimeString();
+
+        Post::where("id", $id)->update([
+            "featured" => 1,
+            "featured_at" => $featured
+        ]);
+
+        return response()->json([
+            'success' => 'Post featured Successfully!'
+        ], 200);
+    }
 
     //Display Live Posts
     public  function getLivePosts()
     {
-        // $livePosts = Post::where('published', 1)->orderBy('published_at', 'desc')->get();
-        // $livePosts = Post::select('id', 'title', 'category_id', 'image', 'published_at' )->where('published', 0)->orderBy('published_at', 'desc')->paginate(5);
-        $livePosts = Post::select('id', 'title', 'category_id', 'image', 'published_at')
+        $livePosts = Post::select('id', 'title', 'category_id', 'image', 'published_at', 'featured')
             ->where('published', 1)->with(array('category' => function ($query) {
                 $query->select('id', 'name');
             }))
