@@ -4,48 +4,55 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require('./bootstrap')
 
-window.Vue = require('vue');
+window.Vue = require('vue')
 
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
 
-import CKEditor from '@ckeditor/ckeditor5-vue';
-Vue.use(CKEditor);
+import CKEditor from '@ckeditor/ckeditor5-vue'
+Vue.use(CKEditor)
 
-import VueAxios from 'vue-axios';
-import axios from 'axios';
+import VueAxios from 'vue-axios'
+import axios from 'axios'
+Vue.use(VueAxios, axios)
 
-import Admin from './Admin.vue';
-Vue.use(VueAxios, axios);
+import Admin from './Admin.vue'
+
 
 import {
     BootstrapVue,
     IconsPlugin
 } from 'bootstrap-vue'
-
 Vue.use(BootstrapVue)
-
 Vue.use(IconsPlugin)
 Vue.use(require('vue-moment'))
+
+import Vuex from 'vuex'
+Vue.use(Vuex)
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 
-import Login from './components/admin/LoginComponent.vue';
-import Register from './components/admin/RegisterComponent.vue';
-import App from './App.vue';
+import Login from './components/admin/LoginComponent.vue'
+import Register from './components/admin/RegisterComponent.vue'
+import App from './App.vue'
+import storeData from './store/store.js'
+
+const store = new Vuex.Store(
+    storeData
+)
 
 
-import DashboardComponent from './components/admin/DashboardComponent.vue';
-import AddNewPostComponent from './components/admin/AddNewPostComponent.vue';
-import AddNewCategoryComponent from './components/admin/AddNewCategoryComponent.vue';
-import DraftsComponent from './components/admin/DraftsComponent.vue';
-import EditPostComponent from './components/admin/EditPostComponent.vue';
-import LivePostsComponent from './components/admin/LivePostsComponent.vue';
-import ProfileComponent from './components/admin/ProfileComponent.vue';
+import DashboardComponent from './components/admin/DashboardComponent.vue'
+import AddNewPostComponent from './components/admin/AddNewPostComponent.vue'
+import AddNewCategoryComponent from './components/admin/AddNewCategoryComponent.vue'
+import DraftsComponent from './components/admin/DraftsComponent.vue'
+import EditPostComponent from './components/admin/EditPostComponent.vue'
+import LivePostsComponent from './components/admin/LivePostsComponent.vue'
+import ProfileComponent from './components/admin/ProfileComponent.vue'
 
 
 const routes = [{
@@ -115,7 +122,7 @@ const routes = [{
 const router = new VueRouter({
     mode: 'history',
     routes: routes
-});
+})
 const app = new Vue(Vue.util.extend({
-    router
-}, App)).$mount('#app');
+    router, store
+}, App)).$mount('#app')
