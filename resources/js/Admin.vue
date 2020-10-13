@@ -183,6 +183,7 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
             <img
+              v-if="user.avatar"
               v-bind:src="'http://127.0.0.1:8000/' + user.avatar"
               class="img-circle elevation-2"
               alt="User Image"
@@ -356,7 +357,7 @@
 }
 </style>
 <script>
-import { mapActions, mapState, mapMutations } from "vuex";
+import { mapActions, mapState, mapMutations, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -384,15 +385,9 @@ export default {
       });
     },
     ...mapActions(["getAuthUser"]),
-    triggerGetAuthUser(){
-        this.getAuthUser()
+    triggerGetAuthUser() {
+      this.getAuthUser()
     },
-    // getAuthUser() {
-    //     axios.get('/api/user').then((response) => {
-    //         this.user = response.data[0]
-    //         // console.log(response.data[0].firstName)
-    //     })
-    // },
     goToProfilePage() {
       this.$router.push({
         name: "profile",
@@ -409,21 +404,13 @@ export default {
     },
   },
   created() {
-    // this.getAuthUser()
+    this.triggerGetAuthUser(), this.getCurrentRoute();
+  },
 
-    this.getCurrentRoute();
-  },
-  mounted() {
-      this.triggerGetAuthUser()
-    // this.$store.dispatch("getAuthUser")
-  },
   computed: {
-    // getAuthUserFromStore() {
-    //   return this.$store.getters.getUserFromStore;
-    // },
     ...mapState({
-        user: state => state.user,
-    })
+      user: (state) => state.user,
+    }),
   },
   watch: {
     $route(to, from) {

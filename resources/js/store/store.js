@@ -1,5 +1,5 @@
 export default {
-    state:{
+    state: {
         user: null,
     },
 
@@ -10,21 +10,21 @@ export default {
     },
 
     actions: {
-        getAuthUser: (context) => {
-            axios.get('/api/user').then((response) => {
-                // this.user = response.data[0]
-                context.commit("GET_USER", response.data[0])
-                // console.log(response.data[0].firstName)
-            }).catch((err) =>{
-                console.log(err)
+        getAuthUser({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios.get('/api/user').then((response) => {
+                    commit("GET_USER", response.data[0])
+                }).catch((err) => {
+                    console.log(err)
+                })
             })
-        },
+        }
 
     },
 
     mutations: {
         GET_USER: (state, data) => {
-             state.user = data
+            state.user = data
         }
     }
 }
